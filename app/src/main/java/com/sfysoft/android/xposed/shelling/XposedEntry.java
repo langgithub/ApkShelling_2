@@ -85,7 +85,7 @@ public class XposedEntry implements IXposedHookLoadPackage {
                     XposedHelpers.findAndHookMethod("java.lang.ClassLoader", lpparam.classLoader,
                                 "loadClass", String.class, boolean.class, hook);
                 }
-            }catch (NoSuchMethodException | ClassNotFoundException e) {
+            }catch (Exception e) {
                 log(e);
             }
         }
