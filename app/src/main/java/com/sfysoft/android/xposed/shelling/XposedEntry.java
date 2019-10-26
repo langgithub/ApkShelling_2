@@ -47,7 +47,7 @@ public class XposedEntry implements IXposedHookLoadPackage {
      * 拟脱壳的App包名，对应AndroidManifests.xml里的<manifest package的值
      */
     private static final String[] targetPackages =
-            new String[]{"com.kwkx.songjindai"};
+            new String[]{"com.dataseed.cashnow"};
 
     private static void log(String text) {
         XposedBridge.log(text);
@@ -75,18 +75,18 @@ public class XposedEntry implements IXposedHookLoadPackage {
         }
 
         for (String application : PACKED_APP_ENTRIES) {
-            Class cls = XposedHelpers.findClass(application, lpparam.classLoader);
-            if (cls != null) {
-                log("Found " + application);
-                ClassLoaderHook hook;
-                try {
+            try{
+                Class cls = XposedHelpers.findClass(application, lpparam.classLoader);
+                if (cls != null) {
+                    log("Found " + application);
+                    ClassLoaderHook hook;
+
                     hook = new ClassLoaderHook(getSavingPath(packageName));
                     XposedHelpers.findAndHookMethod("java.lang.ClassLoader", lpparam.classLoader,
-                                                    "loadClass", String.class, boolean.class, hook);
-                } catch (NoSuchMethodException | ClassNotFoundException e) {
-                    log(e);
+                                "loadClass", String.class, boolean.class, hook);
                 }
-                break;
+            }catch (NoSuchMethodException | ClassNotFoundException e) {
+                log(e);
             }
         }
     }
