@@ -76,7 +76,8 @@ public class XposedEntry implements IXposedHookLoadPackage {
 
         for (String application : PACKED_APP_ENTRIES) {
             try{
-                Class cls = XposedHelpers.findClass(application, lpparam.classLoader);
+                log("是否是壳 " + application);
+                Class cls = lpparam.classLoader.loadClass(application);
                 if (cls != null) {
                     log("Found " + application);
                     ClassLoaderHook hook;
@@ -86,7 +87,7 @@ public class XposedEntry implements IXposedHookLoadPackage {
                                 "loadClass", String.class, boolean.class, hook);
                 }
             }catch (Exception e) {
-                log(e);
+                log("不是壳"+ application);
             }
         }
     }
