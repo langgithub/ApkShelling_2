@@ -47,15 +47,15 @@ public class XposedEntry implements IXposedHookLoadPackage {
      * 拟脱壳的App包名，对应AndroidManifests.xml里的<manifest package的值
      */
     private static final String[] targetPackages =
-            new String[]{"com.dataseed.cashnow"};
+            new String[]{"com.haiercash.gouhua"};
 
     private static void log(String text) {
         XposedBridge.log(text);
     }
 
-    private static void log(Throwable throwable) {
-        XposedBridge.log(throwable);
-    }
+//    private static void log(Throwable throwable) {
+//        XposedBridge.log(throwable);
+//    }
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
@@ -88,6 +88,7 @@ public class XposedEntry implements IXposedHookLoadPackage {
                 }
             }catch (Exception e) {
                 log("不是壳"+ application);
+                
             }
         }
     }
@@ -145,7 +146,7 @@ public class XposedEntry implements IXposedHookLoadPackage {
             try {
                 dex = getDex.invoke(cls);
             } catch (IllegalAccessException | InvocationTargetException e) {
-                log(e);
+                log(e.getMessage());
                 return;
             }
 
@@ -220,7 +221,7 @@ public class XposedEntry implements IXposedHookLoadPackage {
                     try (FileOutputStream fileOutputStream = new FileOutputStream(targetFile)) {
                         fileOutputStream.write(bytes);
                     } catch (IOException e) {
-                        log(e);
+                        log(e.getMessage());
                     }
                 }
 
@@ -256,7 +257,7 @@ public class XposedEntry implements IXposedHookLoadPackage {
                 try {
                     bytes = (byte[]) getBytes.invoke(dex);
                 } catch (IllegalAccessException | InvocationTargetException e) {
-                    log(e);
+                    log(e.getMessage());
                     return;
                 }
 
